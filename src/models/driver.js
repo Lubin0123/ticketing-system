@@ -1,18 +1,27 @@
-import Person from "./person";
 
-class Driver extends Person{
-    constructor(
-        id, name, identifyDocument, phone, status, driverLicense, hireDate
-    ){
-        super(id, name, identifyDocument, phone, status);
-        this.driverLicense = driverLicense;
-        this.hireDate = hireDate;
+import { DataTypes } from 'sequelize';
+import sequelize  from '../config/database.js';
+import Person from './person.js';
+
+class Driver extends Person{}
+Driver.init(
+    {
+        driverLicense:{
+            type:DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+        },
+        hireDate:{
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+    },
+    {
+        sequelize,
+        modelName: 'Driver',
+        tableName: 'Driver',
+        freezeTableName: true,
+        schema: 'my_schema',
     }
-    assignRoute(){
-        //logica para asignar la ruta a un conductor
-    }
-    reportStatus(){
-        //logica para reportar estado del conductor
-    }
-}
+);
 export default Driver;

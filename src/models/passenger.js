@@ -1,21 +1,41 @@
-import Person from "./person";
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.js';
+import Person from './person.js';
 
-class Passanger extends Person{
-    constructor(
-        id, name, identifyDocument, phone, status, email, address,
-    ){
-        super(id, name, identifyDocument,phone,status);
-        this.email = email;
-        this.address = address;
+class Passenger extends Person{}
+Passenger.init(
+    {
+        email:{
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+            validate:{
+                isEmail: true,
+            },
+        },
+        address:{
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        birthDate:{
+            type: DataTypes.DATEONLY,
+            allowNull: false,
+            validate: {
+                isDate: true,
+            },
+        },
+        registrationDate:{
+            type:DataTypes.DATE,
+            allowNull:false,
+            defaultValue: DataTypes.NOW,
+        },
+    },
+    {
+    sequelize,
+    modelName: 'Passenger',
+    tableName: 'Passenger',
+    freezeTableName: true,
+    schema: 'my_schema',
     }
-    register(){
-        //aca desarrollo la logica para el registro del pasajero
-    }
-    logIn(){
-        //logica para el inicio de session de un pasajero
-    }
-    buyTicket(){
-        //logica para realizar la compra del tiquete
-    }
-}
-export default Passanger;
+);
+export default Passenger;
